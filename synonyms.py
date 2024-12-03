@@ -48,17 +48,20 @@ def cosine_similarity(vec1, vec2):
 def build_semantic_descriptors(sentences):
     descriptors = {}
     for words in sentences:
+        to_ignore = []
         for word in words:
-            if word.lower() not in descriptors:
-                descriptors[word.lower()] = {}
-            for otherword in words:
-                if otherword.lower() not in descriptors[word.lower()]:
-                    descriptors[word.lower()][otherword.lower()] = 1
-                else:
-                    descriptors[word.lower()][otherword.lower()] += 1
-            descriptors[word.lower()][word.lower()] -= 1
-            if descriptors[word.lower()][word.lower()] == 0:
-                del descriptors[word.lower()][word.lower()]
+            if word not in to_ignore:
+                if word.lower() not in descriptors:
+                    descriptors[word.lower()] = {}
+                for otherword in words:
+                    if otherword.lower() not in descriptors[word.lower()]:
+                        descriptors[word.lower()][otherword.lower()] = 1
+                    else:
+                        descriptors[word.lower()][otherword.lower()] += 1
+                descriptors[word.lower()][word.lower()] -= 1
+                if descriptors[word.lower()][word.lower()] == 0:
+                    del descriptors[word.lower()][word.lower()]
+        to_ignore.append(word)
     return descriptors
 
 def build_semantic_descriptors_from_files(filenames):
