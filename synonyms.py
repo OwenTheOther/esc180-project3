@@ -67,7 +67,7 @@ def build_semantic_descriptors_from_files(filenames):
         f = open(filename, "r", encoding="latin1").read()
         lines = split_string(f, [".",".", "!", "?"])
         for line in lines:
-            to_add = split_string(line, [" ", ",", "-", "--", ":", ";"])
+            to_add = split_string(line, [" ", ",", "-", "--", ":", ";", "\n"])
             if to_add != []:
                 sentences.append(to_add)
     return build_semantic_descriptors(sentences)
@@ -147,7 +147,6 @@ if __name__ == "__main__":
 
     # print(most_similar_word("Parents", ["eifnwiuf", "children",  "story", "experience"], d, cosine_similarity))
     d = build_semantic_descriptors_from_files(["warandpeace.txt", "swannsway.txt"])
-    print(run_similarity_test("test.txt", d, cosine_similarity))
-    
+    print(d["the"])
 
     pass
