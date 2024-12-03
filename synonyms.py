@@ -52,11 +52,11 @@ def build_semantic_descriptors(sentences):
             if word.lower() not in descriptors:
                 descriptors[word.lower()] = {}
             for otherword in words:
-                if otherword.lower() != word.lower():
-                    if otherword.lower() not in descriptors[word.lower()]:
-                        descriptors[word.lower()][otherword.lower()] = 1
-                    else:
-                        descriptors[word.lower()][otherword.lower()] += 1
+                if otherword.lower() not in descriptors[word.lower()]:
+                    descriptors[word.lower()][otherword.lower()] = 1
+                else:
+                    descriptors[word.lower()][otherword.lower()] += 1
+            descriptors[word.lower()][word.lower()] -= 1
     return descriptors
 
 def build_semantic_descriptors_from_files(filenames):
@@ -65,7 +65,7 @@ def build_semantic_descriptors_from_files(filenames):
         f = open(filename, "r", encoding="latin1").read()
         lines = split_string(f, [".",".", "!", "?"])
         for line in lines:
-            to_add = split_string(line, [" ", ",", "-", "--", ":", ";", "\n"])
+            to_add = split_string(line, [" ", ",", "-", "--", ":", ";"])
             if to_add != []:
                 sentences.append(to_add)
     return build_semantic_descriptors(sentences)
@@ -83,7 +83,7 @@ def most_similar_word(word, choices, semantic_descriptors, similarity_fn):
         if choice.lower() in semantic_descriptors:
             sim = similarity_fn(semantic_descriptors[word.lower()], semantic_descriptors[choice.lower()])
             if sim == 0:
-                similarities[choice.lower()] = 0
+                similarities[choice.lower()] = -1
             else:
                 similarities[choice.lower()] = sim
     max_sim = -2
