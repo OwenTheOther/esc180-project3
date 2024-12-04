@@ -86,15 +86,14 @@ def most_similar_word(word, choices, semantic_descriptors, similarity_fn):
     similarities = {}
     
     if word.lower() not in semantic_descriptors:
-        return None
+        return choices[0]
 
     for choice in choices:
         if choice.lower() in semantic_descriptors:
             sim = similarity_fn(semantic_descriptors[word.lower()], semantic_descriptors[choice.lower()])
-            if sim == 0:
-                similarities[choice.lower()] = -1
-            else:
-                similarities[choice.lower()] = sim
+            similarities[choice.lower()] = sim
+        else:
+            similarities[choice.lower()] = -1
     max_sim = -2
     max_choice = None        
     for choice, val in similarities.items():
