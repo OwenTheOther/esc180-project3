@@ -65,7 +65,7 @@ def build_semantic_descriptors(sentences):
                 descriptors[word.lower()][word.lower()] -= 1
                 if descriptors[word.lower()][word.lower()] == 0:
                     del descriptors[word.lower()][word.lower()]
-        to_ignore.append(word.lower())
+            to_ignore.append(word.lower())
     return descriptors
 
 def build_semantic_descriptors_from_files(filenames):
