@@ -50,18 +50,22 @@ def build_semantic_descriptors(sentences):
     for words in sentences:
         to_ignore = []
         for word in words:
-            if word not in to_ignore:
+            if word.lower() not in to_ignore:
                 if word.lower() not in descriptors:
                     descriptors[word.lower()] = {}
+                other_ignore = []
                 for otherword in words:
-                    if otherword.lower() not in descriptors[word.lower()]:
-                        descriptors[word.lower()][otherword.lower()] = 1
-                    else:
-                        descriptors[word.lower()][otherword.lower()] += 1
+                    if otherword.lower() not in other_ignore:    
+                        if otherword.lower() not in descriptors[word.lower()]:
+                            descriptors[word.lower()][otherword.lower()] = 1
+                        else:
+                            descriptors[word.lower()][otherword.lower()] += 1
+                        other_ignore.append(otherword.lower())
+                    
                 descriptors[word.lower()][word.lower()] -= 1
                 if descriptors[word.lower()][word.lower()] == 0:
                     del descriptors[word.lower()][word.lower()]
-        to_ignore.append(word)
+        to_ignore.append(word.lower())
     return descriptors
 
 def build_semantic_descriptors_from_files(filenames):
@@ -149,7 +153,8 @@ if __name__ == "__main__":
     # print(d)
 
     # print(most_similar_word("Parents", ["eifnwiuf", "children",  "story", "experience"], d, cosine_similarity))
-    d = build_semantic_descriptors_from_files(["warandpeace.txt", "swannsway.txt"])
-    print(d["the"])
+    #d = build_semantic_descriptors_from_files(["warandpeace.txt", "swannsway.txt"])
+    #print(d["the"])
+    print(build_semantic_descriptors_from_files(["tstring.txt"]))
 
     pass
