@@ -100,7 +100,7 @@ def most_similar_word(word, choices, semantic_descriptors, similarity_fn):
         if val > max_sim:
             max_sim = val
             max_choice = choice
-    return choice
+    return max_choice
 
 
     
